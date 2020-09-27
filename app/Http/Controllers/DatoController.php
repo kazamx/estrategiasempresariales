@@ -26,11 +26,7 @@ class DatoController extends Controller
         // return "INDEX";
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    // Carga la vista del formulario para ingresar los datos.
     public function create()
     {
         $datos_empresas = DB::table('bs_empresas')->get();
@@ -86,23 +82,25 @@ class DatoController extends Controller
             ON bs_empresas.id_empresas = bs_puntovta.id_empresas');
 
 
-            $datos = DB::select('select sum(valor_venta), codigo_puntovta from bs_acumulavtas
+            $datos = DB::select('select sum(valor_venta) as total_venta, codigo_puntovta from bs_acumulavtas
                 where fecha = ? group by codigo_puntovta', [$request->fecha]);
-
-
-                $i=0;
 
             foreach($datos as $dato){
                 foreach($datos_empresa as $dato_empresa){
                     if($dato_empresa->codigo_punto === $dato->codigo_puntovta){
                         $dato->nombre_empresa = $dato_empresa->nombre_empresas;
                         $dato->id_empresa = $dato_empresa->id_empresas;
-                        $i++;
+                        $dato->fecha = $request->fecha;
+                        // Se guarda en '$dato', sin embargo se imprime en '$datos'.
+                        // cuando terminan las iteraciones cambia es '$datos', ya que es la variable del método
+                        // diferente a '$dato' que es la variable creada y utilizada en la iteración
                     }
                 }
             }
+
             // return $datos_empresa;
-            return $datos;
+            // return ($datos);
+            return view('show',compact('datos'));
 
             // $datos = DB::select('select nombre_empresas, bs_empresas.id_empresas, codigo_punto, fecha, valor_venta
             // from bs_empresas inner join bs_puntovta 

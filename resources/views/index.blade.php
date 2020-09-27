@@ -17,7 +17,6 @@
                 <option value="{{ $puntovta->codigo_punto }}">
                     {{ $puntovta->nombre_puntovta }} 
                 </option>
-
             @endforeach
         </select>
         <br/>
