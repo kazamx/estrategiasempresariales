@@ -54,23 +54,21 @@ class DatoController extends Controller
                 DB::insert('insert into bs_acumulavtas (fecha, valor_venta, codigo_puntovta, id_acumulavtas)
                     values (?, ?, ?, ?)', [$request->fecha, $request->valor,$puntovta->codigo_punto, null]);
                 
-                
             }
             
         }
         return redirect(route('create'));
     }
-
     
     // Método que atrapa la consulta para mostrar 
     public function show(Request $request)
     {
         if(false){
             $datos = DB::select('select nombre_empresas, bs_empresas.id_empresas, codigo_punto, fecha, valor_venta
-             from bs_empresas inner join bs_puntovta 
-             ON bs_empresas.id_empresas = bs_puntovta.id_empresas
-             inner join bs_acumulavtas ON bs_puntovta.codigo_punto = bs_acumulavtas.codigo_puntovta
-             where fecha = ? and codigo_punto = ?',[$request->fecha,$request->punto_venta]);
+                from bs_empresas inner join bs_puntovta 
+                ON bs_empresas.id_empresas = bs_puntovta.id_empresas
+                inner join bs_acumulavtas ON bs_puntovta.codigo_punto = bs_acumulavtas.codigo_puntovta
+                where fecha = ? and codigo_punto = ?',[$request->fecha,$request->punto_venta]);
             $suma_dato = 0;
             foreach($datos as $dato){
                 $suma_dato += $dato->valor_venta;
@@ -78,9 +76,8 @@ class DatoController extends Controller
         }
         if(true){
             $datos_empresa = DB::select('select nombre_empresas, bs_empresas.id_empresas, codigo_punto
-             from bs_empresas inner join bs_puntovta 
-            ON bs_empresas.id_empresas = bs_puntovta.id_empresas');
-
+                from bs_empresas inner join bs_puntovta 
+                ON bs_empresas.id_empresas = bs_puntovta.id_empresas');
 
             $datos = DB::select('select sum(valor_venta) as total_venta, codigo_puntovta from bs_acumulavtas
                 where fecha = ? group by codigo_puntovta', [$request->fecha]);

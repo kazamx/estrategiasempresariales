@@ -11,15 +11,15 @@
     <form action="{{ route('show') }}" method="POST">
         @csrf
         
-        Elija punto de venta:
+        {{-- Elija punto de venta:
         <select name="punto_venta" id="#">
             @foreach($datos_puntovta as $puntovta)
                 <option value="{{ $puntovta->codigo_punto }}">
                     {{ $puntovta->nombre_puntovta }} 
                 </option>
             @endforeach
-        </select>
-        <br/>
+        </select> --}}
+        
         <br/>
         Elije la fecha de la consulta
         <input type="date" name="fecha">
